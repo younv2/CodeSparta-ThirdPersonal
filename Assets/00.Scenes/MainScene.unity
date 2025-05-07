@@ -8701,7 +8701,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d6515b51cdc3934a97ed0be7be63d59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactionUIPrefab: {fileID: 620693072}
+  interactionUI: {fileID: 620693072}
 --- !u!1 &1963718974
 GameObject:
   m_ObjectHideFlags: 0

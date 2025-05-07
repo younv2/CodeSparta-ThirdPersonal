@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class InteractionUI : MonoBehaviour
 {
-    [SerializeField] private GameObject interactionUIPrefab;
+    [SerializeField] private GameObject interactionUI;
 
     private void Start()
     {
@@ -12,13 +12,13 @@ public class InteractionUI : MonoBehaviour
 
     private void ShowUI(Transform target)
     {
-        interactionUIPrefab.SetActive(true);
-        interactionUIPrefab.transform.position = Camera.main.WorldToScreenPoint(target.position + Vector3.up * 0.5f);
+        interactionUI.SetActive(true);
+        interactionUI.transform.position = Camera.main.WorldToScreenPoint(target.position + Vector3.up * 0.5f);
     }
 
     private void HideUI()
     {
-        interactionUIPrefab.SetActive(false);
+        interactionUI.SetActive(false);
 
     }
 }
