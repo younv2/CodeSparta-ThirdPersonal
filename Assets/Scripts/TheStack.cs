@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TheStack;
+using TMPro;
 using UnityEngine;
 namespace TheStack
 {
@@ -12,6 +13,7 @@ namespace TheStack
         private const float BlockMovingSpeed = 5.0f;
         private const float ErrorMargin = 0.1f;
         [SerializeField] private InputHandler inputHandler;
+        [SerializeField] private TextMeshProUGUI score;
         public GameObject originBlock = null;
 
         private Vector3 prevBlockPosition;
@@ -40,9 +42,6 @@ namespace TheStack
         int bestCombo = 0;
         public int BestCombo { get => bestCombo; }
 
-        private const string BestScoreKey = "BestScore";
-        private const string BestComboKey = "BestCombo";
-
         // Start is called before the first frame update
         void Start()
         {
@@ -52,8 +51,8 @@ namespace TheStack
                 return;
             }
 
-            bestScore = PlayerPrefs.GetInt(BestScoreKey, 0);
-            bestCombo = PlayerPrefs.GetInt(BestComboKey, 0);
+            bestScore = PlayerPrefs.GetInt(Define.BestScoreKey, 0);
+            bestCombo = PlayerPrefs.GetInt(Define.BestComboKey, 0);
 
             prevBlockPosition = Vector3.down;
 
@@ -117,7 +116,7 @@ namespace TheStack
             lastBlock = newTrans;
 
             isMovingX = !isMovingX;
-
+            score.text = stackCount.ToString();
             return true;
         }
 
@@ -276,8 +275,8 @@ namespace TheStack
                 bestScore = stackCount;
                 bestCombo = maxCombo;
 
-                PlayerPrefs.SetInt(BestScoreKey, bestScore);
-                PlayerPrefs.SetInt(BestComboKey, bestCombo);
+                PlayerPrefs.SetInt(Define.BestScoreKey, bestScore);
+                PlayerPrefs.SetInt(Define.BestComboKey, bestCombo);
             }
         }
     }

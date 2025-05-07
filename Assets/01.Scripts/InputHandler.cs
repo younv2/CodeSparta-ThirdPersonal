@@ -9,6 +9,8 @@ public class InputHandler : MonoBehaviour
     {
         get
         {
+            if (isApplicationQuit)
+                return null;
             if (instance == null)
             {
                 instance = GameObject.FindObjectOfType<InputHandler>();
@@ -57,5 +59,10 @@ public class InputHandler : MonoBehaviour
     {
         if (value.isPressed)
             OnProgressDialogInput?.Invoke();
+    }
+    private static bool isApplicationQuit = false;
+    private void OnDestroy()
+    {
+        isApplicationQuit = true;        
     }
 }
