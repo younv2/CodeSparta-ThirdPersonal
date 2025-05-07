@@ -7,8 +7,8 @@ public class Player : MonoBehaviour
     private PlayerStat stat;
     private PlayerController controller;
     [SerializeField]private PlayerVisual visual;
-    // Start is called before the first frame update
-    void Awake()
+
+    void Start()
     {
         stat = new PlayerStat(new Dictionary<StatType,Stat>() {
             {StatType.Speed, new Stat(StatType.Speed,5) }

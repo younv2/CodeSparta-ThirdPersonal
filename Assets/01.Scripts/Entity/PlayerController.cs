@@ -1,13 +1,11 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
-
 
 public class PlayerController : MonoBehaviour
 {
     private PlayerStat playerStat;
     private PlayerVisual playerVisual;
-    private SpriteRenderer spriteRenderer;
     private Vector2 moveDirection;
+    private InputHandler inputHandler;
 
     private bool isInitialized = false;
 
@@ -15,15 +13,18 @@ public class PlayerController : MonoBehaviour
     {
         this.playerStat = playerStat;
         playerVisual = visual;
+        inputHandler = InputHandler.Instance;
+        inputHandler.OnInteractInput += Interact;
         isInitialized = true;
     }
 
     public void FixedUpdate()
     {
-        if(!isInitialized)
+        if (!isInitialized)
         {
             throw new System.Exception("PlayerController가 초기화되지 않았습니다.");
         }
+        moveDirection = inputHandler.MoveInput;
         if (moveDirection == Vector2.zero)
         {
             playerVisual.SetMoving(false);
@@ -34,14 +35,9 @@ public class PlayerController : MonoBehaviour
         playerVisual.SetMoving(true);
     }
 
-    private void OnMove(InputValue inputValue)
+    public void Interact()
     {
-        Vector2 input = inputValue.Get<Vector2>();
-
-        if (input != null)
-        {
-            moveDirection = input.normalized;
-        }
+        InteractionManager.Instance.Interactive(transform.position);
     }
 
     public void ResetInput() => moveDirection = new Vector2();
