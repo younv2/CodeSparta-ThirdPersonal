@@ -1,0 +1,5 @@
+DialogId,NPCId,DialogText,NextId,Choice1Text,Choice1NextId,Choice2Text,Choice2NextId
+1,1,어서와! 게임을 해볼래?,,좋아!,2,싫어!,3
+2,1,좋아! 바로 시작하자,4,,,,
+3,1,알겠어. 다음에 또 보자,,,,,
+4,0,가자!,,,,,
