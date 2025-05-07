@@ -21,8 +21,6 @@ public class UIManager : MonoBehaviour
                     GameObject go = new GameObject("UIManager");
                     instance = go.AddComponent<UIManager>();
                 }
-
-                DontDestroyOnLoad(instance.gameObject);
             }
 
             return instance;
