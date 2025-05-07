@@ -50,28 +50,19 @@ public class DataManager : MonoBehaviour
     private void LoadDialogData()
     {
         var datas = CsvReader.Read(DataPath.DialogTableCSV);
-        if(datas == null)
+        var choicedatas = CsvReader.Read(DataPath.DialogChoiceTableCSV);
+        if (datas == null || choicedatas == null)
         {
             throw new System.Exception("DialogData 로드에 실패했습니다");
         }
-        foreach(var data in datas)
+        foreach (var data in datas)
         {
             List<DialogChoice> choices = new List<DialogChoice>();
-            int cnt = 1;
-            while(true)
+            foreach(var choice in choicedatas.FindAll(x => x["DialogId"].ToString().Equals(data["DialogId"].ToString())))
             {
-                if(!data.ContainsKey($"Choice{cnt}NextId") || !data.ContainsKey($"Choice{cnt}Text"))
-                {
-                    break;
-                }
-                if (ParseNullableInt(data[$"Choice{cnt}NextId"]) is null && data[$"Choice{cnt}Text"].ToString().Equals(""))
-                {
-                    break;
-                }
-                choices.Add(new DialogChoice(ParseNullableInt(data[$"Choice{cnt}NextId"]), data[$"Choice{cnt}Text"].ToString()));
-
-                cnt++;
+                choices.Add(new DialogChoice(ParseNullableInt(choice[$"NextId"]), choice[$"ChoiceText"].ToString()));
             }
+
             DialogData temp = new DialogData(
             (int)data["DialogId"],
             (int)data["NPCId"],

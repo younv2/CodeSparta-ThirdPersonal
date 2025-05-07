@@ -1,11 +1,14 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class DialogViewModel
 {
+    private string dialogText;
+
     public string NpcName => currentNpc.Name;
     public string ImagePath => currentNpc.ImagePath;
-    public string DialogText => currentDialog.DialogText;
+    public string DialogText => dialogText;
     public IReadOnlyList<DialogChoice> Choices => currentDialog.ChoiceList;
 
     public event Action OnDialogUpdated; 
@@ -17,6 +20,12 @@ public class DialogViewModel
     public void SetDialog(int dialogId)
     {
         currentDialog = DataManager.Instance.GetDialogData(dialogId);
+        dialogText = currentDialog.DialogText;
+        if (dialogId == 5)
+        {
+            int score = PlayerPrefs.GetInt(Define.BestScoreKey, 0);
+            dialogText = string.Format(currentDialog.DialogText, score);
+        }
         currentNpc = DataManager.Instance.GetNpcData(currentDialog.NPCId);
 
         OnDialogUpdated?.Invoke();

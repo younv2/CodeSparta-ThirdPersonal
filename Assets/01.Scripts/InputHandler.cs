@@ -35,6 +35,7 @@ public class InputHandler : MonoBehaviour
 
     private void Awake()
     {
+        isApplicationQuit = false;
         if (instance != null && instance != this)
         {
             Destroy(gameObject);
