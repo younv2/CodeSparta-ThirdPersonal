@@ -9,7 +9,7 @@ public class DialogViewModel
     public IReadOnlyList<DialogChoice> Choices => currentDialog.ChoiceList;
 
     public event Action OnDialogUpdated; 
-    public event Action OnDialogEnded; 
+    public event Action<string> OnDialogEnded; 
 
     private DialogData currentDialog;
     private NPCData currentNpc;
@@ -30,7 +30,7 @@ public class DialogViewModel
         }
         else
         {
-            OnDialogEnded?.Invoke();
+            OnDialogEnded?.Invoke(currentDialog.EndActionKey);
         }
     }
     public void Progress()
@@ -41,6 +41,6 @@ public class DialogViewModel
         if (currentDialog.NextId.HasValue)
             SetDialog(currentDialog.NextId.Value);
         else
-            OnDialogEnded?.Invoke();
+            OnDialogEnded?.Invoke(currentDialog.EndActionKey);
     }
 }

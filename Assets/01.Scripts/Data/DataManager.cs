@@ -77,7 +77,8 @@ public class DataManager : MonoBehaviour
             (int)data["NPCId"],
             data["DialogText"].ToString(),
             ParseNullableInt(data["NextId"]),
-            choices
+            choices,
+            data["EndActionKey"].ToString()
             );
             dialogData.Add((int)data["DialogId"], temp);
         }

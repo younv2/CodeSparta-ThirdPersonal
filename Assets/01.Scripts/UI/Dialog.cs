@@ -1,6 +1,9 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.SearchService;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.U2D;
 using UnityEngine.UI;
 
@@ -11,17 +14,17 @@ public class Dialog : MonoBehaviour
     [SerializeField] private TextMeshProUGUI dialogText;
     [SerializeField] private Transform choiceRoot;        
     [SerializeField] private GameObject choiceButtonPrefab;
-
     [SerializeField] private SpriteAtlas npcAtlas;
+
+    private Dictionary<string, Action> endActionMap = new();
 
     private DialogViewModel viewModel;
     private readonly List<GameObject> buttonPool = new();
 
-    public void Bind(DialogViewModel vm)
+    
+    private void Awake()
     {
-        viewModel = vm;
-        viewModel.OnDialogUpdated += InitUI;
-        viewModel.OnDialogEnded += Hide;
+        endActionMap["StartMiniGame"] = () => SceneManager.LoadScene("TheStackScene");
     }
     private void OnEnable()
     {
@@ -30,6 +33,12 @@ public class Dialog : MonoBehaviour
     private void OnDisable()
     {
         InputHandler.Instance.OnProgressDialogInput -= Progress;
+    }
+    public void Bind(DialogViewModel vm)
+    {
+        viewModel = vm;
+        viewModel.OnDialogUpdated += InitUI;
+        viewModel.OnDialogEnded += HandleDialogEnd;
     }
     private void InitUI()
     {
@@ -67,5 +76,13 @@ public class Dialog : MonoBehaviour
     {
         viewModel.Progress();
     }
-    private void Hide() => gameObject.SetActive(false);
+    private void HandleDialogEnd(string actionId)
+    {
+        if (endActionMap.TryGetValue(actionId, out var action))
+        {
+            action.Invoke();
+        }
+
+        gameObject.SetActive(false);
+    }
 }
